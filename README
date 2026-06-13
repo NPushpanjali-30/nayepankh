@@ -1,0 +1,290 @@
+# NayePankh Foundation — Data Analytics Project
+
+> **Internship Project | Domain: Data Analytics**
+> Simulated end-to-end analytics pipeline for a non-profit foundation — from raw data generation to an interactive HTML report with dashboards, donor segmentation, impact scoring, and predictive forecasting.
+
+---
+
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Project Structure](#project-structure)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Report Sections](#report-sections)
+7. [Module Reference](#module-reference)
+8. [Data Schema](#data-schema)
+9. [Methodology](#methodology)
+10. [Output Files](#output-files)
+11. [Customisation](#customisation)
+
+---
+
+## Project Overview
+
+This project simulates a complete data analytics workflow for **NayePankh Foundation**, a non-profit organisation running eight social impact programmes across India. The pipeline:
+
+- Generates realistic synthetic datasets (500 beneficiaries, 300 donations, 200 volunteers)
+- Computes KPIs and trend analyses
+- Produces four interactive Plotly dashboards
+- Runs RFM donor segmentation and programme impact scoring
+- Forecasts FY 2025–26 metrics using linear regression
+- Audits data quality across all three datasets
+- Outputs a single self-contained HTML report with a sticky navigation menu
+
+No external database or API is required — the entire pipeline runs locally.
+
+---
+
+## Features
+
+| Feature | Description |
+|---|---|
+| **Sticky Navigation Menu** | 12-section sidebar with active-link highlighting as you scroll |
+| **Executive Summary** | Auto-generated narrative paragraph using live KPI values |
+| **KPI Dashboard** | 12 key performance indicators rendered as metric cards |
+| **Overview Dashboard** | 6-panel Plotly subplot (programmes, sources, trends, age, category, completion) |
+| **Month-over-Month Table** | Monthly donations and beneficiary counts with ▲/▼ change badges |
+| **Programme Analysis** | Satisfaction scores and state-wise beneficiary distribution |
+| **Impact Score Calculator** | Weighted composite score (0–100) per programme across 5 dimensions |
+| **Donation Analytics** | Quarterly totals and source breakdown charts |
+| **Donor RFM Segmentation** | Recency × Frequency × Monetary scoring into 5 donor segments |
+| **Volunteer Analytics** | Year-on-year growth and skill distribution |
+| **Predictive Analytics** | Linear trend forecast for all 12 months of FY 2025–26 |
+| **Data Quality Report** | Null counts, completeness scores, and type checks per column |
+| **Enhanced Footer** | Timestamp, dataset sizes, analysis period, confidentiality notice |
+
+---
+
+## Project Structure
+
+```
+nayepankh_analytics.py       # Main script (single file)
+nayepankh_report.html        # Generated HTML report (auto-created on run)
+beneficiaries.csv            # Exported beneficiary dataset (auto-created)
+donations.csv                # Exported donation dataset (auto-created)
+volunteers.csv               # Exported volunteer dataset (auto-created)
+README.md                    # This file
+```
+
+---
+
+## Installation
+
+**Requirements:** Python 3.8 or higher.
+
+```bash
+pip install pandas numpy plotly
+```
+
+No other dependencies are needed. All visualisations use Plotly, loaded from CDN in the HTML output (internet connection required to view charts in the report).
+
+---
+
+## Usage
+
+```bash
+python nayepankh_analytics.py
+```
+
+The script runs through six stages printed to the terminal:
+
+```
+[1/6] Generating datasets...
+[2/6] Computing KPIs...
+[3/6] Running RFM Donor Segmentation...
+[4/6] Computing Impact Scores...
+[5/6] Generating Predictions...
+[6/6] Generating full HTML report...
+```
+
+On completion the report opens automatically in your default browser. All CSV exports are written to the working directory.
+
+---
+
+## Report Sections
+
+### 1 — Executive Summary
+A four-paragraph auto-generated narrative summarising the foundation's FY 2024–25 performance, pulling live values for beneficiaries reached, funds raised, volunteer contribution, and FY 2025–26 projections.
+
+### 2 — KPI Dashboard
+Twelve headline metrics displayed as cards:
+Total Beneficiaries, Completion Rate, Avg Satisfaction Score, Total Funds Raised, Avg Donation, Repeat Donor Rate, Total Volunteers, Active Volunteers, Total Volunteer Hours, States Covered (Beneficiaries), States Covered (Volunteers), Active Programmes.
+
+### 3 — Overview Dashboard
+A 2×3 Plotly subplot grid covering beneficiary distribution by programme, donation source breakdown, monthly donation trend, volunteer age groups, category split, and completion status.
+
+### 4 — Month-over-Month Comparison
+A table with one row per month showing total donations (in Lakhs), MoM % change, new beneficiaries enrolled, beneficiary MoM % change, and number of individual donations. Change cells use green ▲ / red ▼ badges.
+
+### 5 — Programme Analysis
+Horizontal bar charts for average satisfaction score per programme (scale 3–5) and top-10 states by beneficiary count.
+
+### 6 — Impact Score Calculator
+Each programme receives a score from 0 to 100 computed as:
+
+```
+Impact Score = (Reach × 0.30) + (Completion Rate × 0.25) +
+               (Satisfaction × 0.20) + (Vol Hours/Beneficiary × 0.15) +
+               (Donation Allocation × 0.10)
+```
+
+All five components are normalised to 0–1 before weighting. The score is rendered as a proportional colour bar (green ≥ 70, amber ≥ 40, red below).
+
+### 7 — Donation Analytics
+Quarterly donation totals (bar chart) and donation by source (horizontal bar), both annotated with Lakh (L) labels.
+
+### 8 — Donor RFM Segmentation
+Each donor is scored on three axes (each 1–5 via quintile binning):
+
+- **Recency** — days since most recent donation (5 = most recent)
+- **Frequency** — number of total donations (5 = most frequent)
+- **Monetary** — cumulative donation amount (5 = highest)
+
+Combined RFM score maps to five segments:
+
+| Score Range | Segment |
+|---|---|
+| 13–15 | Champions |
+| 10–12 | Loyal Donors |
+| 7–9 | Potential Loyalists |
+| 5–6 | At-Risk Donors |
+| 3–4 | Lost Donors |
+
+A donut chart and summary table are included with average recency, frequency, and monetary value per segment.
+
+### 9 — Volunteer Analytics
+Year-on-year volunteer growth (line chart) and skill distribution (donut chart) covering Teaching, Tech, Medical, Admin, and Field Work.
+
+### 10 — Predictive Analytics
+Uses `numpy.polyfit` to fit a degree-1 linear regression on monthly beneficiary counts and monthly donation totals from FY 2024–25. The fitted coefficients are extrapolated forward 12 months to produce the FY 2025–26 forecast. Volunteer projections use a year-level trend. Outputs include three hero metric cards, a two-panel forecast chart, and a monthly breakdown table.
+
+### 11 — Data Quality Report
+For each of the three datasets the report shows per-column null counts, null percentage, data type, and a status indicator (✅ OK / ⚠️ minor / ❌ significant). An overall completeness percentage and duplicate count are shown at the dataset level.
+
+---
+
+## Module Reference
+
+```python
+# Data generation
+generate_beneficiary_data(n=500)   # Returns beneficiary DataFrame
+generate_donation_data(n=300)      # Returns donation DataFrame
+generate_volunteer_data(n=200)     # Returns volunteer DataFrame
+
+# Analysis
+compute_kpis(ben_df, don_df, vol_df)           # Returns KPI dict
+compute_mom_table(ben_df, don_df, vol_df)      # Returns MoM DataFrame
+compute_impact_scores(ben_df, don_df, vol_df)  # Returns impact score DataFrame
+compute_rfm(don_df)                            # Returns RFM-scored donor DataFrame
+compute_predictions(ben_df, don_df, vol_df)    # Returns (forecast_df, totals_dict)
+compute_data_quality(ben_df, don_df, vol_df)   # Returns quality dict
+
+# Charts (each returns a Plotly Figure)
+dashboard_overview(ben_df, don_df, vol_df, kpis)
+dashboard_programs(ben_df)
+dashboard_donations(don_df)
+dashboard_volunteers(vol_df)
+rfm_chart(rfm_df)
+forecast_chart(forecast_df)
+
+# Report
+generate_html_report(kpis, ben_df, don_df, vol_df, output_path="nayepankh_report.html")
+```
+
+---
+
+## Data Schema
+
+### Beneficiaries (`beneficiaries.csv`)
+| Column | Type | Description |
+|---|---|---|
+| beneficiary_id | string | Unique ID (BEN0001…) |
+| name | string | Placeholder name |
+| age | int | Age (10–60), ~2% nulls injected |
+| gender | string | Male / Female / Other |
+| state | string | One of 12 Indian states |
+| program | string | One of 8 programmes |
+| category | string | Education / Health / Livelihood / Environment |
+| enrollment_date | datetime | Monthly, Apr 2024 – Mar 2025 |
+| completion_status | string | Enrolled / Completed / Dropped |
+| satisfaction_score | float | 3.0–5.0, ~1% nulls injected |
+
+### Donations (`donations.csv`)
+| Column | Type | Description |
+|---|---|---|
+| donation_id | string | Unique ID (DON0001…) |
+| donor_name | string | Placeholder name |
+| source | string | Individual / CSR / Government / Events / Online |
+| amount | float | ₹500–₹5L (Individual), ₹50K–₹2L (CSR), ₹1L–₹5L (Govt) |
+| date | datetime | Daily, Apr 2024 – Mar 2025 |
+| last_donation_date | datetime | date + 0–90 days, capped at Mar 2025 |
+| frequency | int | 1–11 donations per donor |
+| month | Period[M] | Monthly period |
+| quarter | Period[Q] | Quarterly period |
+| program_allocated | string | Programme the donation is assigned to |
+| is_repeat_donor | bool | 62% True |
+
+### Volunteers (`volunteers.csv`)
+| Column | Type | Description |
+|---|---|---|
+| volunteer_id | string | Unique ID (VOL0001…) |
+| name | string | Placeholder name |
+| age | int | 18–55 |
+| gender | string | Male / Female / Other |
+| state | string | One of 12 Indian states |
+| program_assigned | string | One of 8 programmes |
+| hours_contributed | float | 10–300 hours |
+| join_year | int | 2020–2025 (weighted toward recent years) |
+| retention_status | string | Active (74%) / Inactive (26%) |
+| skills | string | Teaching / Tech / Medical / Admin / Field Work |
+
+---
+
+## Methodology
+
+**Seed:** `numpy.random.seed(42)` — all data is fully reproducible across runs.
+
+**Data Quality Nulls:** ~2% nulls are deliberately injected into `satisfaction_score` and `age` in the beneficiary dataset to demonstrate the data quality audit feature.
+
+**RFM Binning:** Quintile-based (`pd.qcut`) with rank-based tie-breaking for frequency to avoid empty bin errors on low-cardinality columns.
+
+**Forecasting:** First-degree polynomial (`numpy.polyfit` with deg=1) fitted on 12 monthly observations. Predictions are floored at zero. This is intentionally simple — the model is demonstrative, not production-grade.
+
+**Impact Score Normalisation:** Min-max normalisation applied independently per metric before weighting so no single metric dominates due to scale differences.
+
+---
+
+## Output Files
+
+| File | Description |
+|---|---|
+| `nayepankh_report.html` | Self-contained interactive report (open in any browser) |
+| `beneficiaries.csv` | 500-row beneficiary export |
+| `donations.csv` | 300-row donation export |
+| `volunteers.csv` | 200-row volunteer export |
+
+The HTML report embeds Plotly via CDN. An internet connection is required to render the charts when opening the file.
+
+---
+
+## Customisation
+
+**Change dataset size:** Pass different `n` values to the generator functions in `main()`.
+
+**Change date range:** Edit the `pd.date_range` start/end strings in `generate_donation_data` and `generate_beneficiary_data`.
+
+**Adjust Impact Score weights:** Modify the five multipliers in `compute_impact_scores()` — they must sum to 100.
+
+**Add a new programme:** Append to the `PROGRAMS` list and add a corresponding entry to `CATEGORIES`. All downstream calculations will pick it up automatically.
+
+**Change RFM segment thresholds:** Edit the score boundaries in the `segment()` function inside `compute_rfm()`.
+
+**Save report to a custom path:**
+```python
+generate_html_report(kpis, ben_df, don_df, vol_df, output_path="my_report.html")
+```
+
+---
+
