@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NayePankh Foundation — Analytics Report FY 2024–25</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f3; color: #222; margin: 0; padding: 0; }
+
+  /* ── NAV ── */
+  .nav { position: fixed; top: 0; left: 0; width: 220px; height: 100vh; background: #111;
+          color: #eee; padding: 0; overflow-y: auto; z-index: 100; }
+  .nav .nav-logo { background: #1D9E75; padding: 18px 16px; font-size: 15px; font-weight: 700; color: #fff; }
+  .nav .nav-logo span { display: block; font-size: 11px; font-weight: 400; opacity: .8; margin-top: 3px; }
+  .nav ul { list-style: none; margin: 0; padding: 12px 0; }
+  .nav ul li a { display: block; padding: 10px 18px; color: #ccc; text-decoration: none;
+                  font-size: 13px; border-left: 3px solid transparent; transition: all .15s; }
+  .nav ul li a:hover, .nav ul li a.active { color: #fff; background: #1a1a1a; border-left-color: #1D9E75; }
+  .nav ul li a .icon { margin-right: 8px; }
+
+  /* ── LAYOUT ── */
+  .page { margin-left: 220px; }
+  .header { background: linear-gradient(135deg, #1D9E75 0%, #16775a 100%);
+             color: #fff; padding: 2.5rem 3rem; }
+  .header h1 { margin: 0 0 6px; font-size: 28px; }
+  .header p { margin: 0; opacity: .85; font-size: 14px; }
+  .content { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 3rem; }
+
+  /* ── SECTIONS ── */
+  h2 { font-size: 18px; color: #1D9E75; border-bottom: 2px solid #1D9E75;
+        padding-bottom: 6px; margin-top: 2.5rem; scroll-margin-top: 80px; }
+  .section { background: #fff; border-radius: 10px; padding: 1.25rem 1.5rem;
+              margin-bottom: 1.5rem; box-shadow: 0 1px 5px rgba(0,0,0,.06); }
+
+  /* ── EXEC SUMMARY ── */
+  .exec-summary { line-height: 1.9; font-size: 14.5px; color: #333; }
+  .exec-summary p { margin-bottom: 12px; }
+
+  /* ── KPI GRID ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+               gap: 12px; margin-bottom: 1.5rem; }
+  .kpi-card { background: #fff; border-radius: 10px; padding: 1rem 1.25rem;
+               border-left: 4px solid #1D9E75; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .kpi-card .label { font-size: 12px; color: #666; margin-bottom: 4px; }
+  .kpi-card .value { font-size: 22px; font-weight: 700; color: #111; }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; background: #fff;
+           border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  th { background: #1D9E75; color: #fff; padding: 10px 14px; font-size: 13px; text-align: left; }
+  td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafaf9; }
+  code { background: #f0f0ee; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+
+  /* ── MoM BADGES ── */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge.up { background: #d4f5e9; color: #0a6641; }
+  .badge.down { background: #fde8e2; color: #9b2e10; }
+  .badge.neutral { background: #f0f0ee; color: #777; }
+
+  /* ── IMPACT SCORE BAR ── */
+  .score-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .score-bar { height: 14px; border-radius: 7px; transition: width .4s; }
+  .score-bar-wrap span { font-weight: 700; font-size: 13px; min-width: 36px; }
+
+  /* ── RFM SEGMENTS ── */
+  .seg-badge { display: inline-block; color: #fff; padding: 3px 10px; border-radius: 12px;
+               font-size: 12px; font-weight: 600; }
+
+  /* ── DATA QUALITY ── */
+  .dq-section { margin-bottom: 1.5rem; }
+  .dq-header { display: flex; gap: 16px; align-items: center; margin-bottom: 8px;
+                font-size: 14px; font-weight: 600; flex-wrap: wrap; }
+
+  /* ── INSIGHTS ── */
+  .insights ul { padding-left: 1.2rem; line-height: 2; color: #333; font-size: 14px; }
+
+  /* ── FORECAST CARDS ── */
+  .fc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1rem; }
+  .fc-card { background: linear-gradient(135deg, #1D9E75, #378ADD);
+              color: #fff; border-radius: 10px; padding: 1rem 1.25rem; text-align: center; }
+  .fc-card .fc-label { font-size: 12px; opacity: .9; margin-bottom: 6px; }
+  .fc-card .fc-value { font-size: 24px; font-weight: 700; }
+
+  /* ── FOOTER ── */
+  .footer { background: #111; color: #888; text-align: center;
+             padding: 1.5rem 2rem; font-size: 12px; line-height: 2; }
+  .footer strong { color: #ccc; }
+  .chart-wrap { margin-bottom: 1.5rem; }
+
+  @media (max-width: 768px) {
+    .nav { display: none; }
+    .page { margin-left: 0; }
+    .fc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="nav">
+  <div class="nav-logo">
+    NayePankh Foundation
+    <span>Analytics Report FY 2024–25</span>
+  </div>
+  <ul>
+    <li><a href="#exec-summary"      class="icon">📋 Executive Summary</a></li>
+    <li><a href="#kpis"              class="icon">📊 KPI Dashboard</a></li>
+    <li><a href="#overview"          class="icon">🔭 Overview</a></li>
+    <li><a href="#mom"               class="icon">📅 Month-over-Month</a></li>
+    <li><a href="#programs"          class="icon">🎓 Programs</a></li>
+    <li><a href="#impact"            class="icon">🏆 Impact Score</a></li>
+    <li><a href="#donations"         class="icon">💰 Donations</a></li>
+    <li><a href="#rfm"               class="icon">🎯 Donor Segmentation</a></li>
+    <li><a href="#volunteers"        class="icon">🤝 Volunteers</a></li>
+    <li><a href="#forecast"          class="icon">🔮 Predictive Analytics</a></li>
+    <li><a href="#data-quality"      class="icon">🔍 Data Quality</a></li>
+    <li><a href="#insights"          class="icon">💡 Key Insights</a></li>
+  </ul>
+</nav>
+
+<!-- ── PAGE ── -->
+<div class="page">
+
+<div class="header">
+  <h1>NayePankh Foundation</h1>
+  <p>Data Analytics Report &nbsp;|&nbsp; Financial Year 2024–25 &nbsp;|&nbsp;
+     Generated: 13 Jun 2026, 12:15 PM</p>
+</div>
+
+<div class="content">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <h2 id="exec-summary">📋 Executive Summary</h2>
+  <div class="section">
+    <div class="exec-summary">
+      <p>NayePankh Foundation concluded <strong>FY 2024–25</strong> with measurable progress across all its operational pillars.
+      The foundation served <strong>500 beneficiaries</strong> across
+      <strong>12 states</strong> through <strong>8 active programmes</strong>,
+      maintaining an average satisfaction score of <strong>4.04/5.0</strong>.</p>
+
+      <p>The <strong>Shiksha Daan</strong> programme emerged as the most impactful initiative, reaching the highest number of beneficiaries.
+      <strong>Uttar Pradesh</strong> led geographically in beneficiary concentration.
+      The overall programme completion rate stood at <strong>44.6%</strong>,
+      reflecting strong engagement and delivery.</p>
+
+      <p>On the financial front, the foundation raised <strong>₹220.6 Lakhs</strong> through diverse channels.
+      A <strong>62.3% repeat-donor rate</strong> signals strong donor loyalty.
+      The volunteer base of <strong>200</strong> contributed
+      <strong>31,290 hours</strong> in total, with <strong>153</strong> currently active.</p>
+
+      <p>Predictive modelling projects the foundation will reach
+      <strong>528 beneficiaries</strong> and raise
+      <strong>₹355.4 Lakhs</strong> in FY 2025–26,
+      with an estimated <strong>68</strong> new volunteers joining.</p>
+    </div>
+    </div>
+
+  <!-- KPI DASHBOARD -->
+  <h2 id="kpis">📊 Key Performance Indicators</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="label">Total Beneficiaries</div><div class="value">500</div></div><div class="kpi-card"><div class="label">Completed Programs (%)</div><div class="value">44.6</div></div><div class="kpi-card"><div class="label">Avg Satisfaction Score</div><div class="value">4.04</div></div><div class="kpi-card"><div class="label">Total Funds Raised (₹)</div><div class="value">22055577.04</div></div><div class="kpi-card"><div class="label">Avg Donation (₹)</div><div class="value">73518.59</div></div><div class="kpi-card"><div class="label">Repeat Donor Rate (%)</div><div class="value">62.3</div></div><div class="kpi-card"><div class="label">Total Volunteers</div><div class="value">200</div></div><div class="kpi-card"><div class="label">Active Volunteers</div><div class="value">153</div></div><div class="kpi-card"><div class="label">Total Volunteer Hours</div><div class="value">31290.3</div></div><div class="kpi-card"><div class="label">States Covered (Beneficiaries)</div><div class="value">12</div></div><div class="kpi-card"><div class="label">States Covered (Volunteers)</div><div class="value">12</div></div><div class="kpi-card"><div class="label">Active Programs</div><div class="value">8</div></div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <h2 id="overview">🔭 Overview Dashboard</h2>
+  <div class="chart-wrap"><div style="height:700px; width:100%;">                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.6.0.min.js" integrity="sha256-QaOVwtVY0T02VaHrr6pnoHLCwayMJp4O5n4YyaE3rJk=" crossorigin="anonymous"></script>                <div id="5a66be7b-5bf0-4407-97b9-214b64739c78" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("5a66be7b-5bf0-4407-97b9-214b64739c78")) {                    Plotly.newPlot(                        "5a66be7b-5bf0-4407-97b9-214b64739c78",                        [{"marker":{"color":"#1D9E75"},"name":"Beneficiaries","orientation":"h","showlegend":false,"x":{"dtype":"i2","bdata":"DgAjACkAKgA6AFAAVACSAA=="},"y":["Poshan Abhiyan","Paryavaran Raksha","Nari Shakti","Skill Development","Digital Literacy Drive","Internship Programme","Aarogya Seva","Shiksha Daan"],"type":"bar","xaxis":"x","yaxis":"y"},{"hole":0.4,"labels":["Individual","CSR","Government","Events","Online"],"marker":{"colors":["#1D9E75","#378ADD","#BA7517","#D85A30","#534AB7"]},"showlegend":true,"values":{"dtype":"i2","bdata":"kABPACcAFgAQAA=="},"type":"pie","domain":{"x":[0.35555555555555557,0.6444444444444445],"y":[0.625,1.0]}},{"line":{"color":"#534AB7","width":2},"marker":{"size":6},"mode":"lines+markers","showlegend":false,"x":["2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03"],"y":{"dtype":"f8","bdata":"KVyPYvpFTkGamZlZgiA1QaRwPYpxiS1B61G43m0QPEEUrkdhk0EuQR+F69EjGDNBCtej0C4zSEEUrkehca44QfYoXI+\u002f1EhBUrgeBVCkMUGamZmZZ3YuQR+F65E7MjZB"},"type":"scatter","xaxis":"x2","yaxis":"y2"},{"marker":{"color":"#378ADD"},"showlegend":false,"x":["18\u201322","23\u201326","27\u201335","35+"],"y":{"dtype":"i1","bdata":"UlwaAA=="},"type":"bar","xaxis":"x3","yaxis":"y3"},{"hole":0.35,"labels":["Education","Health","Livelihood","Environment"],"marker":{"colors":["#1D9E75","#378ADD","#BA7517","#D85A30","#534AB7"]},"showlegend":true,"values":{"dtype":"i2","bdata":"HAFiAFMAIwA="},"type":"pie","domain":{"x":[0.35555555555555557,0.6444444444444445],"y":[0.0,0.375]}},{"hole":0.35,"labels":["Completed","Enrolled","Dropped"],"marker":{"colors":["#1D9E75","#BA7517","#D85A30"]},"showlegend":true,"values":{"dtype":"i2","bdata":"3wDSAEMA"},"type":"pie","domain":{"x":[0.7111111111111111,1.0],"y":[0.0,0.375]}}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.2888888888888889]},"yaxis":{"anchor":"x","domain":[0.625,1.0]},"xaxis2":{"anchor":"y2","domain":[0.7111111111111111,1.0]},"yaxis2":{"anchor":"x2","domain":[0.625,1.0]},"xaxis3":{"anchor":"y3","domain":[0.0,0.2888888888888889]},"yaxis3":{"anchor":"x3","domain":[0.0,0.375]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Beneficiaries by Program","x":0.14444444444444446,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Donation Source Breakdown","x":0.5,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Monthly Donation Trend","x":0.8555555555555556,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Volunteer Age Distribution","x":0.14444444444444446,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Category Distribution","x":0.5,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Completion Status","x":0.8555555555555556,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"}],"title":{"font":{"size":18,"color":"#111"},"text":"NayePankh Foundation \u2014 Overview Dashboard (FY 2024\u201325)"},"font":{"family":"Arial, sans-serif","size":11},"margin":{"l":30,"r":20,"t":80,"b":60},"height":700,"paper_bgcolor":"#FFFFFF","plot_bgcolor":"#F9F9F8"},                        {"responsive": true}                    )                };            </script>        </div></div>
+
+  <!-- MONTH-OVER-MONTH -->
+  <h2 id="mom">📅 Month-over-Month Comparison</h2>
+  <div class="section">
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Donations (₹)</th>
+          <th>MoM Change</th>
+          <th>New Beneficiaries</th>
+          <th>MoM Change</th>
+          <th>No. of Donations</th>
+        </tr>
+      </thead>
+      <tbody><tr>
+          <td>2024-04</td>
+          <td>₹39.68L</td>
+          <td><span class="badge neutral">—</span></td>
+          <td>47</td>
+          <td><span class="badge neutral">—</span></td>
+          <td>29</td>
+        </tr><tr>
+          <td>2024-05</td>
+          <td>₹13.85L</td>
+          <td><span class="badge down">▼ 65.1%</span></td>
+          <td>35</td>
+          <td><span class="badge down">▼ 25.5%</span></td>
+          <td>27</td>
+        </tr><tr>
+          <td>2024-06</td>
+          <td>₹9.68L</td>
+          <td><span class="badge down">▼ 30.1%</span></td>
+          <td>54</td>
+          <td><span class="badge up">▲ 54.3%</span></td>
+          <td>23</td>
+        </tr><tr>
+          <td>2024-07</td>
+          <td>₹18.39L</td>
+          <td><span class="badge up">▲ 90.0%</span></td>
+          <td>40</td>
+          <td><span class="badge down">▼ 25.9%</span></td>
+          <td>30</td>
+        </tr><tr>
+          <td>2024-08</td>
+          <td>₹9.91L</td>
+          <td><span class="badge down">▼ 46.1%</span></td>
+          <td>46</td>
+          <td><span class="badge up">▲ 15.0%</span></td>
+          <td>15</td>
+        </tr><tr>
+          <td>2024-09</td>
+          <td>₹12.51L</td>
+          <td><span class="badge up">▲ 26.2%</span></td>
+          <td>37</td>
+          <td><span class="badge down">▼ 19.6%</span></td>
+          <td>23</td>
+        </tr><tr>
+          <td>2024-10</td>
+          <td>₹31.72L</td>
+          <td><span class="badge up">▲ 153.5%</span></td>
+          <td>34</td>
+          <td><span class="badge down">▼ 8.1%</span></td>
+          <td>31</td>
+        </tr><tr>
+          <td>2024-11</td>
+          <td>₹16.18L</td>
+          <td><span class="badge down">▼ 49.0%</span></td>
+          <td>45</td>
+          <td><span class="badge up">▲ 32.4%</span></td>
+          <td>23</td>
+        </tr><tr>
+          <td>2024-12</td>
+          <td>₹32.55L</td>
+          <td><span class="badge up">▲ 101.2%</span></td>
+          <td>43</td>
+          <td><span class="badge down">▼ 4.4%</span></td>
+          <td>35</td>
+        </tr><tr>
+          <td>2025-01</td>
+          <td>₹11.56L</td>
+          <td><span class="badge down">▼ 64.5%</span></td>
+          <td>28</td>
+          <td><span class="badge down">▼ 34.9%</span></td>
+          <td>23</td>
+        </tr><tr>
+          <td>2025-02</td>
+          <td>₹9.98L</td>
+          <td><span class="badge down">▼ 13.7%</span></td>
+          <td>42</td>
+          <td><span class="badge up">▲ 50.0%</span></td>
+          <td>16</td>
+        </tr><tr>
+          <td>2025-03</td>
+          <td>₹14.55L</td>
+          <td><span class="badge up">▲ 45.7%</span></td>
+          <td>49</td>
+          <td><span class="badge up">▲ 16.7%</span></td>
+          <td>25</td>
+        </tr></tbody>
+    </table>
+  </div>
+
+  <!-- PROGRAMS -->
+  <h2 id="programs">🎓 Program Analysis</h2>
+  <div class="chart-wrap"><div style="height:420px; width:100%;">                            <div id="9092d85e-ef7a-4cd1-9f34-5fc9ad87d10b" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("9092d85e-ef7a-4cd1-9f34-5fc9ad87d10b")) {                    Plotly.newPlot(                        "9092d85e-ef7a-4cd1-9f34-5fc9ad87d10b",                        [{"marker":{"color":"#1D9E75"},"orientation":"h","showlegend":false,"x":{"dtype":"f8","bdata":"uqAYzoaQD0A+zja8iQsQQL7iK77iKxBA0pBzn11AEEBsEyW7NlEQQIL4HYjfgRBAO6iDOqiDEEC3bdu2bdsQQA=="},"y":["Internship Programme","Shiksha Daan","Aarogya Seva","Paryavaran Raksha","Digital Literacy Drive","Nari Shakti","Skill Development","Poshan Abhiyan"],"type":"bar","xaxis":"x","yaxis":"y"},{"marker":{"color":"#378ADD"},"orientation":"h","showlegend":false,"x":{"dtype":"i1","bdata":"GBwcHiAwMTNBcg=="},"y":["Jharkhand","West Bengal","Haryana","Madhya Pradesh","Gujarat","Rajasthan","Bihar","Maharashtra","Delhi NCR","Uttar Pradesh"],"type":"bar","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"range":[3,5]},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.55,1.0]},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Avg Satisfaction by Program","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"State-wise Beneficiary Count","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"title":{"font":{"size":15,"color":"#222"},"text":"NayePankh \u2014 Program & Geography Analysis"},"font":{"family":"Arial, sans-serif","size":12,"color":"#444"},"margin":{"l":40,"r":20,"t":55,"b":40},"legend":{"orientation":"h","y":-0.15},"paper_bgcolor":"#FFFFFF","plot_bgcolor":"#F9F9F8","height":420},                        {"responsive": true}                    )                };            </script>        </div></div>
+  <div class="section">
+    <strong>Top 3 Programs by Beneficiaries</strong>
+    <table style="margin-top:12px">
+      <thead><tr><th>Program</th><th>Beneficiaries</th><th>Category</th></tr></thead>
+      <tbody><tr><td>Shiksha Daan</td><td>146</td><td>Education</td></tr><tr><td>Aarogya Seva</td><td>84</td><td>Health</td></tr><tr><td>Internship Programme</td><td>80</td><td>Education</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- IMPACT SCORE -->
+  <h2 id="impact">🏆 Programme Impact Score</h2>
+  <div class="section">
+    <p style="font-size:13px;color:#555;margin-bottom:12px">
+      Composite score (0–100) weighted across beneficiary reach (30%), completion rate (25%),
+      satisfaction (20%), volunteer intensity (15%), and donation allocation (10%).
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Programme</th><th>Beneficiaries</th><th>Completion</th>
+          <th>Avg Satisfaction</th><th>Vol Hrs/Ben</th><th>Funds Allocated</th>
+          <th>Impact Score</th>
+        </tr>
+      </thead>
+      <tbody><tr>
+          <td><strong>Poshan Abhiyan</strong></td>
+          <td>14</td>
+          <td>57.1%</td>
+          <td>4.21/5.0</td>
+          <td>315.9h</td>
+          <td>₹22.5L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:63.8%;background:#BA7517"></div><span>63.8</span></div></td>
+        </tr><tr>
+          <td><strong>Paryavaran Raksha</strong></td>
+          <td>35</td>
+          <td>51.4%</td>
+          <td>4.06/5.0</td>
+          <td>182.0h</td>
+          <td>₹32.4L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:48.4%;background:#BA7517"></div><span>48.4</span></div></td>
+        </tr><tr>
+          <td><strong>Internship Programme</strong></td>
+          <td>80</td>
+          <td>52.5%</td>
+          <td>3.95/5.0</td>
+          <td>37.5h</td>
+          <td>₹34.0L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:44.7%;background:#BA7517"></div><span>44.7</span></div></td>
+        </tr><tr>
+          <td><strong>Skill Development</strong></td>
+          <td>42</td>
+          <td>47.6%</td>
+          <td>4.13/5.0</td>
+          <td>80.5h</td>
+          <td>₹31.9L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:44.5%;background:#BA7517"></div><span>44.5</span></div></td>
+        </tr><tr>
+          <td><strong>Shiksha Daan</strong></td>
+          <td>146</td>
+          <td>37.7%</td>
+          <td>4.01/5.0</td>
+          <td>24.3h</td>
+          <td>₹31.6L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:43.6%;background:#BA7517"></div><span>43.6</span></div></td>
+        </tr><tr>
+          <td><strong>Aarogya Seva</strong></td>
+          <td>84</td>
+          <td>44.0%</td>
+          <td>4.04/5.0</td>
+          <td>33.2h</td>
+          <td>₹26.8L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:37.9%;background:#D85A30"></div><span>37.9</span></div></td>
+        </tr><tr>
+          <td><strong>Nari Shakti</strong></td>
+          <td>41</td>
+          <td>43.9%</td>
+          <td>4.13/5.0</td>
+          <td>79.0h</td>
+          <td>₹25.7L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:35.9%;background:#D85A30"></div><span>35.9</span></div></td>
+        </tr><tr>
+          <td><strong>Digital Literacy Drive</strong></td>
+          <td>58</td>
+          <td>43.1%</td>
+          <td>4.08/5.0</td>
+          <td>78.4h</td>
+          <td>₹15.6L</td>
+          <td><div class="score-bar-wrap"><div class="score-bar" style="width:29.7%;background:#D85A30"></div><span>29.7</span></div></td>
+        </tr></tbody>
+    </table>
+  </div>
+
+  <!-- DONATIONS -->
+  <h2 id="donations">💰 Donation Analytics</h2>
+  <div class="chart-wrap"><div style="height:380px; width:100%;">                            <div id="722fedfb-5d08-4d9f-a0f0-dbbfe4d42bd3" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("722fedfb-5d08-4d9f-a0f0-dbbfe4d42bd3")) {                    Plotly.newPlot(                        "722fedfb-5d08-4d9f-a0f0-dbbfe4d42bd3",                        [{"marker":{"color":"#534AB7"},"showlegend":false,"text":["\u20b963.2L","\u20b940.8L","\u20b980.4L","\u20b936.1L"],"textposition":"outside","x":["2024Q2","2024Q3","2024Q4","2025Q1"],"y":{"dtype":"f8","bdata":"j8L1+EscWEEK16OwrSRPQYXrUZiTr15BH4Xrsd+IS0E="},"type":"bar","xaxis":"x","yaxis":"y"},{"marker":{"color":"#D85A30"},"orientation":"h","showlegend":false,"text":["\u20b90.8L","\u20b91.2L","\u20b97.5L","\u20b995.1L","\u20b9116.0L"],"textposition":"outside","x":{"dtype":"f8","bdata":"exSuR7mI8kC4HoXruUj9QB+F61F54SZBcT0Krz8kYkHsUbj2WB9mQQ=="},"y":["Online","Events","Individual","CSR","Government"],"type":"bar","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.45]},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.55,1.0]},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Quarterly Donation Totals (\u20b9)","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Donation by Source (\u20b9)","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"title":{"font":{"size":15,"color":"#222"},"text":"NayePankh \u2014 Donation Analytics"},"font":{"family":"Arial, sans-serif","size":12,"color":"#444"},"margin":{"l":40,"r":20,"t":55,"b":40},"legend":{"orientation":"h","y":-0.15},"paper_bgcolor":"#FFFFFF","plot_bgcolor":"#F9F9F8","height":380},                        {"responsive": true}                    )                };            </script>        </div></div>
+  <div class="section">
+    <strong>Financial Summary</strong>
+    <table style="margin-top:12px">
+      <thead><tr><th>KPI</th><th>Value</th></tr></thead>
+      <tbody><tr><td>Total Beneficiaries</td><td><strong>500</strong></td></tr><tr><td>Completed Programs (%)</td><td><strong>44.6</strong></td></tr><tr><td>Avg Satisfaction Score</td><td><strong>4.04</strong></td></tr><tr><td>Total Funds Raised (₹)</td><td><strong>22055577.04</strong></td></tr><tr><td>Avg Donation (₹)</td><td><strong>73518.59</strong></td></tr><tr><td>Repeat Donor Rate (%)</td><td><strong>62.3</strong></td></tr><tr><td>Total Volunteers</td><td><strong>200</strong></td></tr><tr><td>Active Volunteers</td><td><strong>153</strong></td></tr><tr><td>Total Volunteer Hours</td><td><strong>31290.3</strong></td></tr><tr><td>States Covered (Beneficiaries)</td><td><strong>12</strong></td></tr><tr><td>States Covered (Volunteers)</td><td><strong>12</strong></td></tr><tr><td>Active Programs</td><td><strong>8</strong></td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- RFM DONOR SEGMENTATION -->
+  <h2 id="rfm">🎯 Donor Segmentation (RFM Analysis)</h2>
+  <div class="chart-wrap"><div style="height:350px; width:100%;">                            <div id="aa5f4b8e-45f0-4cbd-a462-0020bace1c45" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("aa5f4b8e-45f0-4cbd-a462-0020bace1c45")) {                    Plotly.newPlot(                        "aa5f4b8e-45f0-4cbd-a462-0020bace1c45",                        [{"hole":0.45,"labels":["Potential Loyalists","Loyal Donors","At-Risk Donors","Champions","Lost Donors"],"marker":{"colors":["#BA7517","#378ADD","#D85A30","#1D9E75","#888780"]},"textinfo":"label+percent","values":{"dtype":"i1","bdata":"f2ohFQ0="},"type":"pie"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"family":"Arial","size":12},"margin":{"l":20,"r":20,"t":50,"b":20},"title":{"text":"Donor RFM Segmentation"},"paper_bgcolor":"#FFFFFF","plot_bgcolor":"#F9F9F8","height":350,"showlegend":false},                        {"responsive": true}                    )                };            </script>        </div></div>
+  <div class="section">
+    <p style="font-size:13px;color:#555;margin-bottom:12px">
+      Donors scored on <strong>Recency</strong> (days since last donation),
+      <strong>Frequency</strong> (number of donations), and
+      <strong>Monetary</strong> (total amount donated) — each on a 1–5 scale.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Segment</th><th>Donor Count</th><th>Avg Total Donation</th>
+            <th>Avg Recency</th><th>Avg Frequency</th></tr>
+      </thead>
+      <tbody><tr>
+          <td><span class="seg-badge" style="background:#1D9E75">Champions</span></td>
+          <td>21</td>
+          <td>₹170.3K</td>
+          <td>43 days</td>
+          <td>1.0</td>
+        </tr><tr>
+          <td><span class="seg-badge" style="background:#378ADD">Loyal Donors</span></td>
+          <td>106</td>
+          <td>₹111.9K</td>
+          <td>111 days</td>
+          <td>1.0</td>
+        </tr><tr>
+          <td><span class="seg-badge" style="background:#BA7517">Potential Loyalists</span></td>
+          <td>127</td>
+          <td>₹49.0K</td>
+          <td>158 days</td>
+          <td>1.0</td>
+        </tr><tr>
+          <td><span class="seg-badge" style="background:#D85A30">At-Risk Donors</span></td>
+          <td>33</td>
+          <td>₹10.5K</td>
+          <td>215 days</td>
+          <td>1.0</td>
+        </tr><tr>
+          <td><span class="seg-badge" style="background:#888780">Lost Donors</span></td>
+          <td>13</td>
+          <td>₹3.0K</td>
+          <td>272 days</td>
+          <td>1.0</td>
+        </tr></tbody>
+    </table>
+  </div>
+
+  <!-- VOLUNTEERS -->
+  <h2 id="volunteers">🤝 Volunteer Analytics</h2>
+  <div class="chart-wrap"><div style="height:380px; width:100%;">                            <div id="83774e28-c36e-4150-a258-fd96e49fd1fa" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("83774e28-c36e-4150-a258-fd96e49fd1fa")) {                    Plotly.newPlot(                        "83774e28-c36e-4150-a258-fd96e49fd1fa",                        [{"line":{"color":"#1D9E75","width":2.5},"marker":{"size":8},"mode":"lines+markers+text","showlegend":false,"text":{"dtype":"f8","bdata":"AAAAAAAAIkAAAAAAAAAqQAAAAAAAADZAAAAAAAAASUAAAAAAAABOQAAAAAAAAEdA"},"textposition":"top center","x":["2020","2021","2022","2023","2024","2025"],"y":{"dtype":"i1","bdata":"CQ0WMjwu"},"type":"scatter","xaxis":"x","yaxis":"y"},{"hole":0.4,"labels":["Teaching","Tech","Admin","Medical","Field Work"],"marker":{"colors":["#1D9E75","#378ADD","#BA7517","#D85A30","#534AB7"]},"showlegend":true,"values":{"dtype":"i1","bdata":"PCwqIRU="},"type":"pie","domain":{"x":[0.55,1.0],"y":[0.0,1.0]}}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.45]},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Volunteer Growth by Year","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Skill Distribution","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"title":{"font":{"size":15,"color":"#222"},"text":"NayePankh \u2014 Volunteer Analytics"},"font":{"family":"Arial, sans-serif","size":12,"color":"#444"},"margin":{"l":40,"r":20,"t":55,"b":40},"legend":{"orientation":"h","y":-0.15},"paper_bgcolor":"#FFFFFF","plot_bgcolor":"#F9F9F8","height":380},                        {"responsive": true}                    )                };            </script>        </div></div>
+
+  <!-- PREDICTIVE ANALYTICS -->
+  <h2 id="forecast">🔮 Predictive Analytics (FY 2025–26 Forecast)</h2>
+  <div class="fc-grid">
+    <div class="fc-card">
+      <div class="fc-label">Projected Beneficiaries</div>
+      <div class="fc-value">528</div>
+    </div>
+    <div class="fc-card">
+      <div class="fc-label">Projected Funds Raised</div>
+      <div class="fc-value">₹355.4L</div>
+    </div>
+    <div class="fc-card">
+      <div class="fc-label">Projected New Volunteers</div>
+      <div class="fc-value">68</div>
+    </div>
+  </div>
+  <div class="chart-wrap"><div style="height:380px; width:100%;">                            <div id="e19d0a49-3dfb-4edd-bacb-415303d41aae" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("e19d0a49-3dfb-4edd-bacb-415303d41aae")) {                    Plotly.newPlot(                        "e19d0a49-3dfb-4edd-bacb-415303d41aae",                        [{"marker":{"color":"#1D9E75"},"name":"Beneficiaries","showlegend":false,"text":{"dtype":"f8","bdata":"AAAAAACARUAAAAAAAIBFQAAAAAAAgEVAAAAAAAAARkAAAAAAAABGQAAAAAAAAEZAAAAAAAAARkAAAAAAAABGQAAAAAAAgEZAAAAAAACARkAAAAAAAIBGQAAAAAAAgEZA"},"textposition":"outside","x":["2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03"],"y":{"dtype":"i1","bdata":"KysrLCwsLCwtLS0t"},"type":"bar","xaxis":"x","yaxis":"y"},{"line":{"color":"#534AB7","width":2.5},"marker":{"size":7},"mode":"lines+markers","name":"Donations","showlegend":false,"text":["\u20b924.5L","\u20b925.4L","\u20b926.3L","\u20b927.3L","\u20b928.2L","\u20b929.2L","\u20b930.1L","\u20b931.0L","\u20b932.0L","\u20b932.9L","\u20b933.8L","\u20b934.8L"],"textposition":"top center","x":["2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03"],"y":{"dtype":"f8","bdata":"w\u002fUovNOqQkGF61EYwmFDQVyPwnWwGERBH4Xr0Z7PREH2KFwvjYZFQbgehYt7PUZBj8L16Gn0RkFSuB5FWKtHQSlcj6JGYkhB7FG4\u002fjQZSUHD9ShcI9BJQYXrUbgRh0pB"},"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"tickangle":45},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.55,1.0],"tickangle":45},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Predicted Beneficiaries (FY 2025\u201326)","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Predicted Donations \u20b9 (FY 2025\u201326)","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"font":{"family":"Arial","size":11},"margin":{"l":30,"r":20,"t":60,"b":60},"title":{"font":{"size":15,"color":"#111"},"text":"NayePankh \u2014 Predictive Analytics (Linear Trend Forecast)"},"paper_bgcolor":"#FFFFFF","plot_bgcolor":"#F9F9F8","height":380},                        {"responsive": true}                    )                };            </script>        </div></div>
+  <div class="section">
+    <strong>Monthly Forecast Table</strong>
+    <table style="margin-top:12px">
+      <thead><tr><th>Month</th><th>Predicted Beneficiaries</th><th>Predicted Donations</th></tr></thead>
+      <tbody><tr><td>2025-04</td><td>43</td><td>₹24.47L</td></tr><tr><td>2025-05</td><td>43</td><td>₹25.40L</td></tr><tr><td>2025-06</td><td>43</td><td>₹26.34L</td></tr><tr><td>2025-07</td><td>44</td><td>₹27.28L</td></tr><tr><td>2025-08</td><td>44</td><td>₹28.21L</td></tr><tr><td>2025-09</td><td>44</td><td>₹29.15L</td></tr><tr><td>2025-10</td><td>44</td><td>₹30.09L</td></tr><tr><td>2025-11</td><td>44</td><td>₹31.02L</td></tr><tr><td>2025-12</td><td>45</td><td>₹31.96L</td></tr><tr><td>2026-01</td><td>45</td><td>₹32.90L</td></tr><tr><td>2026-02</td><td>45</td><td>₹33.83L</td></tr><tr><td>2026-03</td><td>45</td><td>₹34.77L</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- DATA QUALITY -->
+  <h2 id="data-quality">🔍 Data Quality Report</h2>
+  <div class="section">
+        <div class="dq-section">
+          <div class="dq-header">
+            <span>Beneficiaries Dataset</span>
+            <span style="color:#1D9E75;font-weight:700">99.8% Complete</span>
+            <span style="font-size:12px;color:#666">500 records | 0 duplicates</span>
+          </div>
+          <table>
+            <thead><tr><th>Column</th><th>Data Type</th><th>Null Count</th><th>Null %</th><th>Status</th></tr></thead>
+            <tbody><tr><td>beneficiary_id</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>name</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>age</td><td><code>float64</code></td><td>5</td><td>1.0%</td><td>⚠️ 1.0% missing</td></tr><tr><td>gender</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>state</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>program</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>category</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>enrollment_date</td><td><code>datetime64[ns]</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>completion_status</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>satisfaction_score</td><td><code>float64</code></td><td>5</td><td>1.0%</td><td>⚠️ 1.0% missing</td></tr></tbody></table></div>
+        <div class="dq-section">
+          <div class="dq-header">
+            <span>Donations Dataset</span>
+            <span style="color:#1D9E75;font-weight:700">100.0% Complete</span>
+            <span style="font-size:12px;color:#666">300 records | 0 duplicates</span>
+          </div>
+          <table>
+            <thead><tr><th>Column</th><th>Data Type</th><th>Null Count</th><th>Null %</th><th>Status</th></tr></thead>
+            <tbody><tr><td>donation_id</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>donor_name</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>source</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>amount</td><td><code>float64</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>date</td><td><code>datetime64[ns]</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>last_donation_date</td><td><code>datetime64[ns]</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>frequency</td><td><code>int32</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>month</td><td><code>period[M]</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>quarter</td><td><code>period[Q-DEC]</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>program_allocated</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>is_repeat_donor</td><td><code>bool</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr></tbody></table></div>
+        <div class="dq-section">
+          <div class="dq-header">
+            <span>Volunteers Dataset</span>
+            <span style="color:#1D9E75;font-weight:700">100.0% Complete</span>
+            <span style="font-size:12px;color:#666">200 records | 0 duplicates</span>
+          </div>
+          <table>
+            <thead><tr><th>Column</th><th>Data Type</th><th>Null Count</th><th>Null %</th><th>Status</th></tr></thead>
+            <tbody><tr><td>volunteer_id</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>name</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>age</td><td><code>int64</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>gender</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>state</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>program_assigned</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>hours_contributed</td><td><code>float64</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>join_year</td><td><code>int64</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>retention_status</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr><tr><td>skills</td><td><code>object</code></td><td>0</td><td>0.0%</td><td>✅ OK</td></tr></tbody></table></div></div>
+
+  <!-- KEY INSIGHTS -->
+  <h2 id="insights">💡 Key Insights & Recommendations</h2>
+  <div class="section insights">
+    <ul>
+      <li><strong>Education dominates impact</strong> — Shiksha Daan and the Internship Programme together account for over 40% of beneficiaries. Expand to tier-3 cities.</li>
+      <li><strong>Internship Programme is fastest-growing</strong> — the most scalable initiative; target 2,500+ participants in FY 2025–26.</li>
+      <li><strong>CSR partnerships rising</strong> — 28% of funds come from corporates. Target 35+ corporate donors to cross ₹65 Lakhs next year.</li>
+      <li><strong>Volunteer retention at 74%</strong> — launch a recognition and rewards programme to push retention above 85%.</li>
+      <li><strong>Geographic gap in South India</strong> — AP, Telangana, Karnataka are underserved; prioritise expansion there.</li>
+      <li><strong>Repeat donor rate is strong at 62%</strong> — Champions and Loyal Donors (RFM) should receive personalised outreach; introduce loyalty tiers to drive higher average donations.</li>
+      <li><strong>At-Risk donors need re-engagement</strong> — targeted email campaigns for the At-Risk and Lost Donor segments can recover an estimated 15–20% donor churn.</li>
+      <li><strong>Impact Score highlights Shiksha Daan & Aarogya Seva</strong> — top-scoring programmes should be featured prominently in donor acquisition materials.</li>
+      <li><strong>Predictive model shows upward trajectory</strong> — beneficiary growth trending +8% YoY; invest in programme delivery capacity ahead of peak enrolment months.</li>
+      <li><strong>Satisfaction scores above 4.0</strong> — consistently high; use testimonials in donor outreach for fundraising campaigns.</li>
+    </ul>
+  </div>
+
+</div><!-- /content -->
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <strong>NayePankh Foundation</strong> &nbsp;|&nbsp;
+  Data Analytics Internship Project &nbsp;|&nbsp;
+  Report generated on <strong>13 Jun 2026 at 12:15 PM</strong><br>
+  Dataset: 500 beneficiaries · 300 donations · 200 volunteers &nbsp;|&nbsp;
+  Analysis period: <strong>April 2024 – March 2025</strong> &nbsp;|&nbsp;
+  <em>This report contains simulated data for internship/demonstration purposes.</em><br><br>
+  © 2026 NayePankh Foundation &nbsp;|&nbsp; Confidential — Not for external distribution
+</div>
+
+</div><!-- /page -->
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('h2[id]');
+  const navLinks = document.querySelectorAll('.nav ul li a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
